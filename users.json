@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "username": "username",
+      "email": "email",
+      "name": "name",
+      "age": 12,
+      "uuid": "e0799ade-06cc-4bd7-a68b-fe362498b7af"
+    },
+    {
+      "username": "username",
+      "email": "email",
+      "name": "name",
+      "age": 13,
+      "uuid": "fa6c2a55-e5c5-4257-8188-24180583aee9"
+    },
+    {
+      "username": "username",
+      "email": "email",
+      "name": "name",
+      "age": 14,
+      "uuid": "48f39983-bac1-4774-b978-2496f591d539"
+    }
+  ]
+}

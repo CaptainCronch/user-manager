@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Creator</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous" defer></script>
+<body>
+    <form>
+        <input type="text" name="email" placeholder="email" id="email">
+        <input type="text" name="name" placeholder="name" id="name">
+        <input type="text" name="username" placeholder="username" id="username">
+        <input type="number" name="age" placeholder="age" id="age">
+    </form>
+    <button type="button" onclick="send();return false">submit</button>
+
+
+    <script>
+        function send(){
+            console.log("posted")
+            fetch("http://127.0.0.1:5050/users", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',//'application/x-www-form-urlencoded',
+                    'Accept': '*/*',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Connection': 'keep-alive',
+                },
+                body: JSON.stringify({
+                    email: $("#email").val(),
+                    name: $("#name").val(),
+                    username: $("#username").val(),
+                    age: $("#age").val(),
+                }),
+            })
+        }
+    </script>
+</body>
+</html>

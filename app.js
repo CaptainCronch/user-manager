@@ -1,0 +1,75 @@
+var express = require('express');
+var fs = require('fs')
+const { v4: uuid } = require('uuid')
+
+var app = express();
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+app.use('/static', express.static(__dirname + '/static'));
+
+var users = {}
+fs.readFile('users.json', "utf-8",(err, data) => {
+    users = JSON.parse(data)
+})
+
+app.listen(5050, () => {
+    console.log("server listening on port 5050")
+})
+
+app.get('/', (request, response) => {
+    response.send('user manager here');
+});
+
+app.get('/time', (request, response) => {
+    response.send(`<h1>${new Date()}</h1>`);
+});
+
+app.get('/create', (request, response) => {
+    fs.readFile('./static/index.html', (err, data) => {
+        response.send(data.toString());
+    })
+})
+
+app.get('/list', (request, response) => {
+    fs.readFile('./static/list.html', (err, data) => {
+        response.send(data.toString());
+    })
+})
+
+app.get('/users', (request, response) => {
+    fs.readFile('./users.json', (err, data) => {
+        console.log(data.toString())
+        response.send(data.toString());
+    })
+})
+
+app.post('/users', (request, response) => {
+    console.log(request.body)
+    let user = {
+        username: request.body.username,
+        email: request.body.email,
+        name: request.body.name,
+        age: parseInt(request.body.age),
+        uuid: uuid(),
+    }
+
+    if (user.username == null || user.email == null || user.name == null || user.age == null){
+        response.status(400)
+        response.send('Bad Request')
+        return
+    }
+
+    users["users"].push(user)
+    updateFile()
+    response.status(200)
+    response.send('OK')
+})
+
+app.delete('/users', (req, res) => {
+    console.log(request.body)
+})
+
+function updateFile(){
+    fs.writeFile('./users.json', JSON.stringify(users, null, 2), 'utf-8', err => {if (err) throw err;})
+}
