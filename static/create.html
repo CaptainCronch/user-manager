@@ -17,6 +17,7 @@
 
     <script>
         function send(){
+            if (!$("#email").val() || !$("#name").val() || !$("#username").val() || !$("#age").val()){return;}
             console.log("posted")
             fetch("http://127.0.0.1:5050/users", {
                 method: "POST",
@@ -32,7 +33,7 @@
                     username: $("#username").val(),
                     age: $("#age").val(),
                 }),
-            })
+            }).then(() => {window.location.href = "http://127.0.0.1:5050/list"})
         }
     </script>
 </body>

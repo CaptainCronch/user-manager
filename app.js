@@ -18,7 +18,7 @@ app.listen(5050, () => {
 })
 
 app.get('/', (request, response) => {
-    response.send('user manager here');
+    response.send('<h1><b>go to /create to create user, and go to /list to list users</b></h1>');
 });
 
 app.get('/time', (request, response) => {
@@ -26,7 +26,7 @@ app.get('/time', (request, response) => {
 });
 
 app.get('/create', (request, response) => {
-    fs.readFile('./static/index.html', (err, data) => {
+    fs.readFile('./static/create.html', (err, data) => {
         response.send(data.toString());
     })
 })
@@ -50,7 +50,7 @@ app.get('/users', (request, response) => {
 })
 
 app.post('/users', (request, response) => {
-    console.log(request.body)
+    console.log(request.body.username)
     let user = {
         username: request.body.username,
         email: request.body.email,
