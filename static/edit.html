@@ -6,6 +6,41 @@
     <title>User Edit</title>
 </head>
 <body>
-    
+    <form>
+        <input type="text" name="email" placeholder="email" id="email">
+        <input type="text" name="name" placeholder="name" id="name">
+        <input type="text" name="username" placeholder="username" id="username">
+        <input type="number" name="age" placeholder="age" id="age">
+    </form>
+    <button type="button" onclick="edit();return false">submit changes</button>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script>
+        const url = decodeURI(window.location.href)
+        $("#email").val(url.match(/(?<=&email=)(.+)(?=&name=)/)[0])
+        $("#name").val(url.match(/(?<=&name=)(.+)(?=&username=)/)[0])
+        $("#username").val(url.match(/(?<=&username=)(.+)(?=&age=)/)[0])
+        $("#age").val(parseInt(url.match(/(?<=&age=)(.+)/)[0]))
+
+        function edit(){
+            console.log("patched")
+            fetch("http://127.0.0.1:5050/users", {
+                method: "PATCH",
+                headers: {
+                    'Content-Type': 'application/json',//'application/x-www-form-urlencoded',
+                    'Accept': '*/*',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Connection': 'keep-alive',
+                },
+                body: JSON.stringify({
+                    email: $("#email").val(),
+                    name: $("#name").val(),
+                    username: $("#username").val(),
+                    age: $("#age").val(),
+                    uuid: url.match(/(?<=uuid=)(.+)(?=&email)/)[0] // gets the uuid url param
+                }),
+            })
+        }
+    </script>
 </body>
 </html>

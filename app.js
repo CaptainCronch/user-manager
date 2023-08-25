@@ -37,9 +37,14 @@ app.get('/list', (request, response) => {
     })
 })
 
+app.get('/edit', (request, response) => {
+    fs.readFile('./static/edit.html', (err, data) => {
+        response.send(data.toString());
+    })
+})
+
 app.get('/users', (request, response) => {
     fs.readFile('./users.json', (err, data) => {
-        console.log(data.toString())
         response.send(data.toString());
     })
 })
@@ -67,7 +72,27 @@ app.post('/users', (request, response) => {
 })
 
 app.delete('/users', (req, res) => {
-    console.log(request.body)
+    let deleteID = req.body.uuid
+    console.log(deleteID)
+    for (i in users['users']){
+        if (users['users'][i].uuid == deleteID){
+            users['users'].splice(i, 1)
+            updateFile()
+            break
+        }
+    }
+})
+
+app.patch('/users', (req, res) => {
+    let editID = req.body.uuid
+    console.log(editID)
+    for (i in users['users']){
+        if (users['users'][i].uuid == editID){
+            users['users'][i] = req.body
+            updateFile()
+            break
+        }
+    }
 })
 
 function updateFile(){
